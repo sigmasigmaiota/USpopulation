@@ -592,12 +592,18 @@ div.grey {
 }
 </style>
 ***  
-<b>In order to render the maps in this code, the `fiftystater` package must be installed via `devtools`. The following code chunk installs `fiftystater`.  
+<b>In order to render the maps in this code, the `fiftystater` package must be installed via `devtools`. The following code chunk installs `fiftystater`. Additionally, `kableExtra` will be installed.  
 </b>
 ```{r warning=FALSE, message=FALSE}
 
 require(devtools)
 devtools::install_github("wmurphyrd/fiftystater")
+
+if (!require('kableExtra', character.only=T, quietly=T)) {
+    install.packages('kableExtra')
+    library(kableExtra, character.only=T)
+}
+
 ```
 
 #Population Data - Stephen Jones
