@@ -5,13 +5,15 @@ date: "March 2, 2019"
 output: 
   html_document:
     toc: true
+    toc_depth: 3
+    toc_float: yes
     theme: united
     code_folding: hide
 
 ---
 <style type="text/css">
 h1.title {
-  color: DarkRed;
+  color: DarkBlue;
   font-weight: bold;
 }
 h1 { /* Header 1 */
