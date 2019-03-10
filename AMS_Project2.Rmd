@@ -778,7 +778,7 @@ PR<-USpop3[which(USpop3$NAME == "Puerto Rico"),]
 
 kable(head(PR))%>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))%>%
-  column_spec(column = 4, bold = T, background = "LightCyan")
+  column_spec(column = 5, bold = T, background = "LightCyan")
 ```
 <br>  
 
