@@ -1,0 +1,90 @@
+---
+title: "API_StephenJones"
+author: "Stephen Jones"
+date: "March 31, 2019"
+output: 
+  html_document:
+    code_folding: hide
+---  
+<style>
+.table{
+  width:auto;
+  font-size: 10px;
+}
+</style>
+
+I began by installing the following packages: `httr`, `jsonlite` and `lubridate`, then searched for a list of cities with geographical data.  
+
+```{r message=FALSE,warning=FALSE}
+
+#API key
+key<-"v7WPyNmMioALylwiSD1J6cnu4aMDGOqt"
+
+library(httr)
+library(jsonlite)
+library(lubridate)
+
+#deactivate strings as factors
+options(stringsAsFactors = FALSE)
+
+#retrieves ten cities with geographic variables.
+url<-paste0("http://api.nytimes.com/svc/semantic/v2/geocodes/query.json?feature_class=P&country_code=US&api-key=",key)
+
+cities1<-as.data.frame(fromJSON(url,flatten=TRUE))
+
+#keep a few columns
+cities1<-cities1[c("results.concept_name","results.name","results.latitude","results.longitude","results.elevation","results.population","results.admin_name1","results.admin_name2")]
+
+#display with T
+library(DT)
+
+datatable(cities1,
+          options = list(scrollX = TRUE))
+
+```  
+
+```{r message=FALSE,warning=FALSE}
+
+library(ggplot2)
+
+p<-ggplot(data=cities1, aes(x=results.name, y=results.population)) +
+  geom_bar(stat="identity") +
+  coord_flip()
+p
+
+```
+
+Population parameters seem to have no effect.  
+
+```{r message=FALSE,warning=FALSE}
+
+#using rtimes
+library(rtimes)
+
+Sys.setenv(NYTIMES_AS_KEY = "v7WPyNmMioALylwiSD1J6cnu4aMDGOqt")
+Sys.setenv(NYTIMES_GEO_KEY = "v7WPyNmMioALylwiSD1J6cnu4aMDGOqt")
+
+cities2<-geo_search(feature_class='P', country_code='US')
+
+cities3<-as.data.frame(cities2,flatten=TRUE)
+
+#keep a few columns
+cities3<-cities3[c("data.concept_name","data.name","data.latitude","data.longitude","data.elevation","data.population","data.admin_name1","data.admin_name2")]
+
+datatable(cities3,
+          options = list(scrollX = TRUE))
+
+```  
+
+
+```{r message=FALSE,warning=FALSE}
+
+#city names removed for clarity
+p2<-ggplot(data=cities3, aes(x=data.name, y=data.population)) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank())
+p2
+
+```
